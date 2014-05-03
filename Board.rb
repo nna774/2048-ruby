@@ -16,9 +16,11 @@ class Board
   @endpoint = ""
   @session_id = ""
   @grid = []
+  @throwExceptionAtOver = true
   
-  def initialize(endpoint = "http://2048.semantics3.com")
+  def initialize(endpoint = "http://2048.semantics3.com", throwExceptionAtOver = true)
     @endpoint = endpoint
+    @throwExceptionAtOver = throwExceptionAtOver
   end
   
   def start()
@@ -35,7 +37,7 @@ class Board
     open(@endpoint + "/hi/state/" + @session_id + "/move/" + direction.to_s + "/json") {|f|
       js = JSON.load(f)
     }
-    if js["over"] != false
+    if js["over"] != false && @throwExceptionAtOver
       if @atOver.nil?
         raise Over, js.to_s
       end
