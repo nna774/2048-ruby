@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'open-uri'
 require 'json'
 
@@ -18,12 +19,12 @@ class Board
   @grid = []
   @throwExceptionAtOver = true
   
-  def initialize(endpoint = "http://2048.semantics3.com", throwExceptionAtOver = true)
+  def initialize(endpoint = "http://2048.semantics3.com", throwExceptionAtOver = true) # destractive
     @endpoint = endpoint
     @throwExceptionAtOver = throwExceptionAtOver
   end
   
-  def start()
+  def start() # destractive
     js = {}
     open(@endpoint + "/hi/start/json") {|f|
       js = JSON.load(f)
@@ -32,7 +33,7 @@ class Board
     @grid = js["grid"]
   end
   
-  def move(direction)
+  def move(direction) # destractive
     js = {}
     open(@endpoint + "/hi/state/" + @session_id + "/move/" + direction.to_s + "/json") {|f|
       js = JSON.load(f)
@@ -44,12 +45,12 @@ class Board
     end
     @grid = js["grid"]
   end
-  def status
+  def status # const
     @grid
   end
 end
 
-def showGrid(grid)
+def showGrid(grid) # RT
   puts "+----+----+----+----+"
   4.times {|i| printf("+%4d+%4d+%4d+%4d+\n", grid[i][0], grid[i][1], grid[i][2], grid[i][3]) }
   puts "+----+----+----+----+"
