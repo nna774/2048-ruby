@@ -32,7 +32,14 @@ begin
     b.move(dir)
     BoardUtil::showGrid (b.status)
   end
-rescue => over
+rescue Over => over
   p over
   BoardUtil::showGrid (b.status)
 end
+
+
+
+
+
+
+
