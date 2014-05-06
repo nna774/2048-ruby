@@ -22,6 +22,7 @@ module BoardUtil
     4.times do |j|
       joined = false
       next if tmp[j] == 0
+      hit = false
       (j-1).downto(0) do |k|
         next if tmp[k] == 0
         if tmp[k] == tmp[j] && ! joined
@@ -35,7 +36,13 @@ module BoardUtil
           end
           joined = false
         end
+        hit = true
         break
+      end
+      if j != 0 && ! hit
+        tmp[0] = tmp[j]
+        tmp[j] = 0
+        joined = false
       end
     end
   end
