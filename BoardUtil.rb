@@ -27,18 +27,40 @@ def moved(grid, direction) # RT
   if direction == Direction::LEFT
     return rotated (moved (rotated grid, Direction::LEFT), Direction::UP), Direction::RIGHT
   end
-  newGrid = [[]]
+  newGrid = [[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]]
   4.times do |i|
-    tmp = []
-    if takeNum grid, i == 0
-      next
+    tmp = [0,0,0,0]
+    4.times do |j|
+      tmp[j] = grid[j][i]
     end
-    if i <= 4
-      newGrid[(i-1)/4][(i-1)%4] = takeNum grid, i
-      next
+    4.times do |j|
+      joined = false
+      if tmp[j] == 0
+        next
+      end
+      (j-1).downto(0) do |k|
+        if tmp[k] == 0
+          next
+        end
+        if tmp[k] == tmp[j] && ! joined
+          tmp[k] *= 2
+          tmp[j] = 0
+          joined = true
+        else
+          unless k + 1 == j
+            tmp[k+1] = tmp[j]
+            tmp[j] = 0
+          end
+          joined = false
+        end
+        break
+      end
     end
-    
+    4.times do |j|
+      newGrid[j][i] = tmp[j]
+    end
   end
+  return newGrid
 end
 
 def takeNum(grid, n) # RT
