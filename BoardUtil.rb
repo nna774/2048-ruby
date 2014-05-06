@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 module BoardUtil
+  PowerWeight = 5.freeze
+
   def rotated(grid, direction) # RT
     # もとのdirection の方向が上を向く
     return grid if direction == Direction::UP
@@ -70,15 +72,15 @@ module BoardUtil
   end
 
   def self.staticEval(grid) # RT
-    return grid.flatten.inject(:+)
+    return grid.flatten.map{|x| x * PowerWeight * Math::log2(x+1) }.inject(:+)
   end
   
   def decideDir(grid) # RT
     npw = nextPossibleWorld(grid)
     npw2 = npw.map{|x|
-      nextPossibleWorld(x[:grid]).map{|y| y[:dir] = x[:dir]}
+      nextPossibleWorld(x[:grid]).map{|y| {grid: y[:grid], dir: x[:dir]}}
     }.flatten(1)
-    return npw.map{|x|
+    return npw2.map{|x|
       { score: staticEval(x[:grid]), dir: x[:dir] }
     }.max{|a,b| a[:score] <=> b[:score]}[:dir]
   end
