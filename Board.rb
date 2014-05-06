@@ -8,6 +8,13 @@ module Direction
   DOWN  = 2
   LEFT  = 3
   DIRS = [UP, RIGHT, DOWN, LEFT]
+  def anti(dir) # anti . anti == id
+    return UP    if dir == UP
+    return RIGHT if dir == LEFT
+    return DOWN  if dir == DOWN
+    return LEFT  if dir == RIGHT
+  end
+  module_function :anti
 end
 
 class Over < StandardError
