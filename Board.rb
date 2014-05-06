@@ -46,7 +46,7 @@ class Board
     @grid = js["grid"]
   end
   def status # const
-    @grid
+    return @grid
   end
 end
 
