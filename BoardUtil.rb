@@ -65,8 +65,7 @@ module BoardUtil
   end
 
   def decideDir(grid) # random
-    r = Random.new()
-    return Direction::DIRS[r.rand(4)]
+    return Direction::DIRS.sample
     # return Direction::UP
   end
 
