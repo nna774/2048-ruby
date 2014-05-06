@@ -17,7 +17,7 @@ module BoardUtil
     #  [grid[3][1], grid[2][1], grid[1][1], grid[0][1]],
     #  [grid[3][2], grid[2][2], grid[1][2], grid[0][2]],
     #  [grid[3][3], grid[2][3], grid[1][3], grid[0][3]]]
-    newGrid = [[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]]
+    newGrid = Array.new(4).map{Array.new(4,0)}
     4.times do |i|
       3.downto(0) do |j|
         newGrid[i][3-j] = grid[j][i]
@@ -27,7 +27,7 @@ module BoardUtil
   end
 
   def self.moveUP(grid)
-    newGrid = [[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]]
+    newGrid = Array.new(4).map{Array.new(4,0)}
     4.times do |i|
       tmp = [0,0,0,0]
       4.times do |j|
