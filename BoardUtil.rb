@@ -73,8 +73,11 @@ module BoardUtil
     return grid.flatten.inject(:+)
   end
   
-  def decideDir(grid) # random
+  def decideDir(grid) # RT
     npw = nextPossibleWorld(grid)
+    npw2 = npw.map{|x|
+      nextPossibleWorld(x[:grid]).map{|y| y[:dir] = x[:dir]}
+    }.flatten(1)
     return npw.map{|x|
       { score: staticEval(x[:grid]), dir: x[:dir] }
     }.max{|a,b| a[:score] <=> b[:score]}[:dir]
