@@ -2,6 +2,7 @@
 # -*- encoding: utf-8 -*-
 
 require './Board.rb'
+
 require './BoardUtil.rb'
 
 endpoint = "http://ring:2048"
@@ -28,7 +29,7 @@ begin
   while (true) # main loop
     dir = BoardUtil::decideDir(b.status)
     #p dir
-    p b.move(dir)
+    b.move(dir)
     BoardUtil::showGrid (b.status)
   end
 rescue => over
