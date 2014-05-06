@@ -12,11 +12,18 @@ module BoardUtil
     if(direction == Direction::DOWN)
       return rotated (rotated grid, Direction::LEFT), Direction::LEFT
     end
-    # 右に90度回転
-    [[grid[3][0], grid[2][0], grid[1][0], grid[0][0]],
-     [grid[3][1], grid[2][1], grid[1][1], grid[0][1]],
-     [grid[3][2], grid[2][2], grid[1][2], grid[0][2]],
-     [grid[3][3], grid[2][3], grid[1][3], grid[0][3]]]
+    # 右に90度回転 つまり
+    # [[grid[3][0], grid[2][0], grid[1][0], grid[0][0]],
+    #  [grid[3][1], grid[2][1], grid[1][1], grid[0][1]],
+    #  [grid[3][2], grid[2][2], grid[1][2], grid[0][2]],
+    #  [grid[3][3], grid[2][3], grid[1][3], grid[0][3]]]
+    newGrid = [[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]]
+    4.times do |i|
+      3.downto(0) do |j|
+        newGrid[i][3-j] = grid[j][i]
+      end
+    end
+    newGrid 
   end
 
   def self.moveUP(grid)
