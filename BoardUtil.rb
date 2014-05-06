@@ -59,9 +59,7 @@ module BoardUtil
   end
   
   def moved(grid, direction) # RT
-    return rotated (moveUP (rotated grid, Direction::RIGHT)), Direction::LEFT if direction == Direction::RIGHT
-    return rotated (moveUP (rotated grid, Direction::DOWN)), Direction::DOWN if direction == Direction::DOWN
-    return rotated (moveUP (rotated grid, Direction::LEFT)), Direction::RIGHT if direction == Direction::LEFT
+    return rotated (moveUP (rotated grid, Direction::anti(direction))), direction unless direction == Direction::UP
 
     return moveUP(grid)
   end
@@ -71,13 +69,15 @@ module BoardUtil
     return grid[(n-1)/4][(n-1)%4]
   end
 
-  def decideDir(grid) # random
-    return Direction::DIRS.sample
-    # return Direction::UP
+  def self.staticEval(grid) # RT
+    return grid.flatten.inject(:+)
   end
-
-  def staticEval(grid) # RT
-    0
+  
+  def decideDir(grid) # random
+    npw = nextPossibleWorld(grid)
+    return npw.map{|x|
+      { score: staticEval(x[:grid]), dir: x[:dir] }
+    }.max{|a,b| a[:score] <=> b[:score]}[:dir]
   end
 
   def showGrid(grid) # RT
@@ -85,6 +85,35 @@ module BoardUtil
     4.times {|i| printf("+%4d+%4d+%4d+%4d+\n", grid[i][0], grid[i][1], grid[i][2], grid[i][3]) }
     puts "+----+----+----+----+"
   end
-
-  module_function :rotated, :moved, :decideDir, :showGrid 
+  
+  def self.nextPossibleWorldUP(grid, dir)
+    up = moveUP(grid)
+    # return [{grid: up, dir: dir}] if up == grid # 動かせなかった場合変わらない
+    #                                             # 枝刈りに不利かもしれない
+     return [] if up == grid
+    ups = []
+    4.times do |i|
+      4.times do |j|
+        if up[j][i] == 0
+          tmp  = Array.new(4).map{Array.new(4,0)}
+          tmp2 = Array.new(4).map{Array.new(4,0)}
+          4.times {|k| 4.times {|l| tmp2[k][l]=tmp[k][l]=up[k][l] }} # deepcopy
+          tmp[j][i]  = 2
+          tmp2[j][i] = 4
+          ups << {grid: tmp, dir: dir} << {grid: tmp2, dir: dir}
+          break
+        end
+      end
+    end
+    return ups
+  end
+  
+  def nextPossibleWorld(grid) # RT
+    return Direction::DIRS.map{|dir|
+      (nextPossibleWorldUP (rotated grid, dir), dir).map{|x|
+        {grid: (rotated x[:grid], Direction::anti(dir)), dir: dir}
+      }
+    }.flatten(1)
+  end
+  module_function :rotated, :moved, :decideDir, :showGrid, :nextPossibleWorld
 end
