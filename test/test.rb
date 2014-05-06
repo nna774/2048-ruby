@@ -87,31 +87,32 @@ class TestRotate < Test::Unit::TestCase
   end
   def test_rotareRightLeftShouldBeID
     @grid.each do |grid|
-      assert_equal((rotated (rotated grid, Direction::LEFT), Direction::RIGHT), grid)
+      assert_equal((BoardUtil::rotated (BoardUtil::rotated grid, Direction::LEFT), Direction::RIGHT), grid)
     end
   end
   def test_rotareThreeRightShouldBeLeft
     @grid.each do |grid|
-      assert_equal((rotated (rotated (rotated grid, Direction::RIGHT), Direction::RIGHT), Direction::RIGHT), (rotated grid, Direction::LEFT))
+      assert_equal((BoardUtil::rotated (BoardUtil::rotated (BoardUtil::rotated grid, Direction::RIGHT), Direction::RIGHT), Direction::RIGHT), (BoardUtil::rotated grid, Direction::LEFT))
     end
   end
 end
+
 
 class TestMove < Test::Unit::TestCase
   def setup
     @grid = All
   end
   def test_TowTowDownIsOneFour
-    assert_equal(OneFour, moved(TwoTwo, Direction::DOWN))
+    assert_equal(OneFour, BoardUtil::moved(TwoTwo, Direction::DOWN))
   end
   def test_AllTwoUpIsDownAllTwosRotateDown
-    assert_equal(rotated(DownAllTwo, Direction::DOWN), moved(AllTwo, Direction::UP))
+    assert_equal(BoardUtil::rotated(DownAllTwo, Direction::DOWN), BoardUtil::moved(AllTwo, Direction::UP))
   end
   def test_AllTwoDownIsDownAllTwo
-    assert_equal(DownAllTwo, moved(AllTwo, Direction::DOWN))
+    assert_equal(DownAllTwo, BoardUtil::moved(AllTwo, Direction::DOWN))
   end
   def test_DownAllTwoDownIsDownDownAllTwo
-    assert_equal(DownDownAllTwo, moved(DownAllTwo, Direction::DOWN))
+    assert_equal(DownDownAllTwo, BoardUtil::moved(DownAllTwo, Direction::DOWN))
   end
 end
 
