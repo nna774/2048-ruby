@@ -26,12 +26,12 @@ b.start
 
 begin
   while (true) # main loop
-    dir = decideDir(b.status)
+    dir = BoardUtil::decideDir(b.status)
     #p dir
     p b.move(dir)
-    showGrid (b.status)
+    BoardUtil::showGrid (b.status)
   end
 rescue => over
   p over
-  showGrid (b.status)
+  BoardUtil::showGrid (b.status)
 end
