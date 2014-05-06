@@ -3,39 +3,27 @@
 module BoardUtil
   def rotated(grid, direction) # RT
     # もとのdirection の方向が上を向く
-    if direction == Direction::UP
-      return grid
-    end
-    if direction == Direction::RIGHT
-      return rotated (rotated grid,Direction::DOWN), Direction::LEFT
-    end
-    if(direction == Direction::DOWN)
-      return rotated (rotated grid, Direction::LEFT), Direction::LEFT
-    end
+    return grid if direction == Direction::UP
+    return rotated (rotated grid,Direction::DOWN), Direction::LEFT if direction == Direction::RIGHT
+    return rotated (rotated grid, Direction::LEFT), Direction::LEFT if(direction == Direction::DOWN)
     # 右に90度回転 つまり
     # [[grid[3][0], grid[2][0], grid[1][0], grid[0][0]],
     #  [grid[3][1], grid[2][1], grid[1][1], grid[0][1]],
     #  [grid[3][2], grid[2][2], grid[1][2], grid[0][2]],
     #  [grid[3][3], grid[2][3], grid[1][3], grid[0][3]]]
     newGrid = Array.new(4).map{Array.new(4,0)}
-    4.times do |i|
-      3.downto(0) do |j|
-        newGrid[i][3-j] = grid[j][i]
-      end
-    end
-    newGrid 
+    4.times {|i| 
+      3.downto(0) {|j| newGrid[i][3-j] = grid[j][i] }
+    }
+    return newGrid 
   end
 
   def self.moveUPImp(tmp)
     4.times do |j|
       joined = false
-      if tmp[j] == 0
-        next
-      end
+      next if tmp[j] == 0
       (j-1).downto(0) do |k|
-        if tmp[k] == 0
-          next
-        end
+        next if tmp[k] == 0
         if tmp[k] == tmp[j] && ! joined
           tmp[k] *= 2
           tmp[j] = 0
@@ -56,28 +44,19 @@ module BoardUtil
     newGrid = Array.new(4).map{Array.new(4,0)}
     4.times do |i|
       tmp = Array.new(4,0)
-      4.times do |j|
-        tmp[j] = grid[j][i]
-      end
+      4.times {|j| tmp[j] = grid[j][i] }
       moveUPImp(tmp)
-      4.times do |j|
-        newGrid[j][i] = tmp[j]
-      end
+      4.times {|j| newGrid[j][i] = tmp[j] }
     end
     return newGrid
   end
   
   def moved(grid, direction) # RT
-    if direction == Direction::RIGHT
-      return rotated (moveUP (rotated grid, Direction::RIGHT)), Direction::LEFT
-    end
-    if direction == Direction::DOWN
-      return rotated (moveUP (rotated grid, Direction::DOWN)), Direction::DOWN
-    end
-    if direction == Direction::LEFT
-      return rotated (moveUP (rotated grid, Direction::LEFT)), Direction::RIGHT
-    end
-    moveUP(grid)
+    return rotated (moveUP (rotated grid, Direction::RIGHT)), Direction::LEFT if direction == Direction::RIGHT
+    return rotated (moveUP (rotated grid, Direction::DOWN)), Direction::DOWN if direction == Direction::DOWN
+    return rotated (moveUP (rotated grid, Direction::LEFT)), Direction::RIGHT if direction == Direction::LEFT
+
+    return moveUP(grid)
   end
   
   def takeNum(grid, n) # RT
