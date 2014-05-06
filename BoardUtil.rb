@@ -26,36 +26,40 @@ module BoardUtil
     newGrid 
   end
 
+  def self.moveUPImp(tmp)
+    4.times do |j|
+      joined = false
+      if tmp[j] == 0
+        next
+      end
+      (j-1).downto(0) do |k|
+        if tmp[k] == 0
+          next
+        end
+        if tmp[k] == tmp[j] && ! joined
+          tmp[k] *= 2
+          tmp[j] = 0
+          joined = true
+        else
+          unless k + 1 == j
+            tmp[k+1] = tmp[j]
+            tmp[j] = 0
+          end
+          joined = false
+        end
+        break
+      end
+    end
+  end
+
   def self.moveUP(grid)
     newGrid = Array.new(4).map{Array.new(4,0)}
     4.times do |i|
-      tmp = [0,0,0,0]
+      tmp = Array.new(4,0)
       4.times do |j|
         tmp[j] = grid[j][i]
       end
-      4.times do |j|
-        joined = false
-        if tmp[j] == 0
-          next
-        end
-        (j-1).downto(0) do |k|
-          if tmp[k] == 0
-            next
-          end
-          if tmp[k] == tmp[j] && ! joined
-            tmp[k] *= 2
-            tmp[j] = 0
-            joined = true
-          else
-            unless k + 1 == j
-              tmp[k+1] = tmp[j]
-              tmp[j] = 0
-            end
-            joined = false
-          end
-          break
-        end
-      end
+      moveUPImp(tmp)
       4.times do |j|
         newGrid[j][i] = tmp[j]
       end
