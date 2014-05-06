@@ -28,7 +28,8 @@ def moved(grid, direction) # RT
     return rotated (moved (rotated grid, Direction::LEFT), Direction::UP), Direction::RIGHT
   end
   newGrid = [[]]
-  16.times do |i|
+  4.times do |i|
+    tmp = []
     if takeNum grid, i == 0
       next
     end
