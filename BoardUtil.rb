@@ -19,16 +19,7 @@ module BoardUtil
      [grid[3][3], grid[2][3], grid[1][3], grid[0][3]]]
   end
 
-  def moved(grid, direction) # RT
-    if direction == Direction::RIGHT
-      return rotated (moved (rotated grid, Direction::RIGHT), Direction::UP), Direction::LEFT
-    end
-    if direction == Direction::DOWN
-      return rotated (moved (rotated grid, Direction::DOWN), Direction::UP), Direction::DOWN
-    end
-    if direction == Direction::LEFT
-      return rotated (moved (rotated grid, Direction::LEFT), Direction::UP), Direction::RIGHT
-    end
+  def self.moveUP(grid)
     newGrid = [[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]]
     4.times do |i|
       tmp = [0,0,0,0]
@@ -64,7 +55,20 @@ module BoardUtil
     end
     return newGrid
   end
-
+  
+  def moved(grid, direction) # RT
+    if direction == Direction::RIGHT
+      return rotated (moveUP (rotated grid, Direction::RIGHT)), Direction::LEFT
+    end
+    if direction == Direction::DOWN
+      return rotated (moveUP (rotated grid, Direction::DOWN)), Direction::DOWN
+    end
+    if direction == Direction::LEFT
+      return rotated (moveUP (rotated grid, Direction::LEFT)), Direction::RIGHT
+    end
+    moveUP(grid)
+  end
+  
   def takeNum(grid, n) # RT
     # 1 to 16
     return grid[(n-1)/4][(n-1)%4]
