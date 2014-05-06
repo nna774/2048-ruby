@@ -54,3 +54,10 @@ end
 def staticEval(grid)
   0
 end
+
+def showGrid(grid) # RT
+  puts "+----+----+----+----+"
+  4.times {|i| printf("+%4d+%4d+%4d+%4d+\n", grid[i][0], grid[i][1], grid[i][2], grid[i][3]) }
+  puts "+----+----+----+----+"
+end
+
