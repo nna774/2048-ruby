@@ -45,12 +45,12 @@ class Board
     open(@endpoint + "/hi/state/" + @session_id + "/move/" + direction.to_s + "/json") {|f|
       js = JSON.load(f)
     }
+    @grid = js["grid"]
     if js["over"] != false && @throwExceptionAtOver
       if @atOver.nil?
         raise Over, js.to_s
       end
     end
-    @grid = js["grid"]
   end
   def status # const
     return @grid
