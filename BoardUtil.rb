@@ -43,4 +43,13 @@ end
 def takeNum(grid, n) # 1 to 16
   return grid[(n-1)/4][(n-1)%4]
 end
-  
+
+def decideDir(grid)
+  r = Random.new()
+  return Direction::DIRS[r.rand(4)]
+  # return Direction::UP
+end
+
+def staticEval(grid)
+  0
+end
