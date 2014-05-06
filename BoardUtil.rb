@@ -41,17 +41,18 @@ def moved(grid, direction) # RT
   end
 end
 
-def takeNum(grid, n) # 1 to 16
+def takeNum(grid, n) # RT
+  # 1 to 16
   return grid[(n-1)/4][(n-1)%4]
 end
 
-def decideDir(grid)
+def decideDir(grid) # random
   r = Random.new()
   return Direction::DIRS[r.rand(4)]
   # return Direction::UP
 end
 
-def staticEval(grid)
+def staticEval(grid) # RT
   0
 end
 
